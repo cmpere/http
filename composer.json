@@ -1,0 +1,22 @@
+{
+    "name": "lia-tec/http",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "LiaTec\\Http\\": "src/",
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Charly",
+            "email": "cmpere@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^6"
+    }
+}
