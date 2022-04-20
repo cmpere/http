@@ -2,6 +2,7 @@
 
 namespace LiaTec\Http\Middlewares;
 
+use GuzzleHttp\Psr7\Utils;
 use LiaTec\Http\Contracts\Authorizable;
 use Psr\Http\Message\RequestInterface;
 use LiaTec\Http\Token\BasicToken;
@@ -71,11 +72,18 @@ class BasicAuthMiddleware
             $this->fetchAccessToken();
         }
 
-        return \GuzzleHttp\Psr7\modify_request($request, [
+        return Utils::modifyRequest($request, [
             'set_headers' => [
                 'Authorization' => (string) $this->getToken(),
             ],
         ]);
+
+        // Deprecated guzzle 7.2
+        // return \GuzzleHttp\Psr7\modify_request($request, [
+        //     'set_headers' => [
+        //         'Authorization' => (string) $this->getToken(),
+        //     ],
+        // ]);
     }
 
     /**
