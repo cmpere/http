@@ -19,31 +19,62 @@ class ChecksForExceptions
             return $next($request, $options)->then(
                 function ($response) {
                     $code = $response->getStatusCode();
+
                     if ($code < 400) {
                         return $response;
                     }
 
                     switch ($code) {
+                        case 400:
+                            throw new ValidationException(json_decode($this->message($response), true));
                         case 422:
-                            $header = $response->getHeader('Content-Type');
-
-                            if (is_array($header) && $header[0] == 'application/problem+json') {
-                                throw new ValidationException(json_decode(
-                                    json_encode((string)$response->getBody()),
-                                    true
-                                ));
-                            }
-
-                            throw new ValidationException(json_decode($response->getBody(), true));
+                            throw new ValidationException(json_decode($this->message($response), true));
                         case 404:
-                            throw new NotFoundException((string) $response->getBody());
+                            throw new NotFoundException($this->message($response));
                         case 401:
-                            throw new UnauthorizedException((string) $response->getBody());
+                            throw new UnauthorizedException($this->message($response));
                         default:
-                            throw new ApiException((string) $response->getBody(), $code);
+                            throw new ApiException($this->message($response), $code);
                     }
                 }
             );
         };
+    }
+
+    /**
+     * Gets response message
+     *
+     * @param  mixed  $response
+     * @return string
+     */
+    private function message($response): string
+    {
+        $header = $this->getHeader('Content-Type');
+
+        switch ($header) {
+            case 'application/problem+json':
+                return json_encode((string) $response->getBody());
+                break;
+        }
+
+        return (string) $response->getBody();
+    }
+
+    /**
+     * Gets header value if exists
+     *
+     * @param  string $name
+     * @param  mixed  $response
+     * @return void
+     */
+    private function getHeader($name, $response)
+    {
+        $header = $response->getHeader($name);
+
+        if (!is_array($header)) {
+            return null;
+        }
+
+        return $header[0];
     }
 }
