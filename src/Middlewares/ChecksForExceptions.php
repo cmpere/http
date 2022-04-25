@@ -49,7 +49,7 @@ class ChecksForExceptions
      */
     private function message($response): string
     {
-        $header = $this->getHeader('Content-Type');
+        $header = $this->getHeader('Content-Type', $response);
 
         switch ($header) {
             case 'application/problem+json':
