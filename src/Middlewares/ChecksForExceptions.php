@@ -51,10 +51,8 @@ class ChecksForExceptions
     {
         $header = $this->getHeader('Content-Type', $response);
 
-        switch ($header) {
-            case 'application/problem+json':
-                return json_encode((string) $response->getBody());
-                break;
+        if ('application/problem+json' === $header) {
+            return json_encode((string) $response->getBody());
         }
 
         return (string) $response->getBody();
@@ -63,11 +61,11 @@ class ChecksForExceptions
     /**
      * Gets header value if exists
      *
-     * @param  string $name
-     * @param  mixed  $response
-     * @return void
+     * @param  string      $name
+     * @param  mixed       $response
+     * @return null|string
      */
-    private function getHeader($name, $response)
+    private function getHeader($name, $response): ?string
     {
         $header = $response->getHeader($name);
 

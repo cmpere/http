@@ -50,7 +50,7 @@ trait ModifiesRequest
     /**
      * Obtiene los headers configurados para aplicar en el request
      *
-     * @return void
+     * @return array
      */
     public function getHeaders(): array
     {

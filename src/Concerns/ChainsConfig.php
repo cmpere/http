@@ -2,6 +2,7 @@
 
 namespace LiaTec\Http\Concerns;
 
+use GuzzleHttp\ClientInterface;
 use LiaTec\Http\Contracts\Authorizable;
 
 /**
@@ -50,9 +51,10 @@ trait ChainsConfig
      * @param  string $port
      * @return self
      */
-    public function port($port = null)
+    public function port($port)
     {
         $this->port = $port;
+
         return $this;
     }
 
@@ -72,9 +74,10 @@ trait ChainsConfig
      * @param  string $protocol
      * @return self
      */
-    public function protocol($protocol = null)
+    public function protocol($protocol)
     {
         $this->protocol = $protocol;
+
         return $this;
     }
 
@@ -89,9 +92,10 @@ trait ChainsConfig
      * @param  string $baseUrl
      * @return self
      */
-    public function baseUrl($baseUrl = null)
+    public function baseUrl($baseUrl)
     {
         $this->baseUrl = $baseUrl;
+
         return $this;
     }
 
@@ -103,12 +107,13 @@ trait ChainsConfig
     /**
      * Habilita el debug del cliente
      *
-     * @param  string $active
+     * @param  boolean $active
      * @return self
      */
     public function debug($active = true)
     {
         $this->debug = $active;
+
         return $this;
     }
 
@@ -122,7 +127,7 @@ trait ChainsConfig
      *
      * @return Authorizable
      */
-    public function getCredential(): Authorizable
+    public function getCredential(): ?Authorizable
     {
         return $this->credential;
     }
@@ -133,10 +138,33 @@ trait ChainsConfig
      * @param  Authorizable $authorizable
      * @return self
      */
-    public function credential(Authorizable $authorizable)
+    public function credential(Authorizable $authorizable = null)
     {
         $this->credential = $authorizable;
 
-        $this;
+        return $this;
+    }
+
+    /**
+     * Transport setter
+     *
+     * @param  ClientInterface $transport
+     * @return self
+     */
+    public function setTransport(ClientInterface $transport)
+    {
+        $this->client = $transport;
+
+        return $this;
+    }
+
+    /**
+     * Transport getter
+     *
+     * @return ClientInterface
+     */
+    public function getTransport(): ClientInterface
+    {
+        return $this->client;
     }
 }
