@@ -24,10 +24,10 @@ abstract class Credential implements Authorizable
     /**
      * Funcion utilizada por el cliente para modificar el request al realizar el envio
      *
-     * @param  RequestInterface $request
-     * @return void
+     * @param  RequestInterface      $request
+     * @return RequestInterface|null
      */
-    public function applyToRequest(RequestInterface $request)
+    public function applyToRequest(RequestInterface $request): ?RequestInterface
     {
         if (method_exists($this, 'request')) {
             $this->request = $request;

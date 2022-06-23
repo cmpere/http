@@ -38,4 +38,9 @@ abstract class AccessToken
     {
         $this->setAttribute($key, $value);
     }
+
+    public function __toString()
+    {
+        return __CLASS__;
+    }
 }

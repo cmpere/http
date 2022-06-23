@@ -6,16 +6,19 @@ use LiaTec\Http\Testing\BasicAuthCredential;
 use LiaTec\Http\Token\BasicToken;
 use PHPUnit\Framework\TestCase;
 
-class BasicAuthCredentialTest extends TestCase
+/**
+ * TODO: Refactor de test, reestructurar las clases para probar los methodos
+ */
+class CredentialsTest extends TestCase
 {
     protected $credential;
     protected $request;
     protected $payload;
 
-    public function setUp():void
+    public function setUp(): void
     {
         parent::setUp();
-        $this->payload = 'testingattributes';
+        $this->payload    = 'testingattributes';
         $this->credential = new BasicAuthCredential(['foo' => $this->payload, 'bar' => $this->payload]);
         $this->request    = new \GuzzleHttp\Psr7\Request('MOVE', 'http://httpbin.org/move');
     }
@@ -33,7 +36,7 @@ class BasicAuthCredentialTest extends TestCase
         $this->credential->bootWith(function ($credential) {
             $credential->bootDigest = "{$credential->foo}:{$credential->bar}";
         });
- 
+
         $this->assertEquals($this->credential->bootDigest, "{$this->payload}:{$this->payload}");
     }
 
@@ -47,8 +50,8 @@ class BasicAuthCredentialTest extends TestCase
     public function it_gets_basic_auth_encoded_token()
     {
         $credential = new BasicAuthCredential(['username' => $this->payload, 'password' => $this->payload]);
-        $token = new BasicToken($credential->getTokenRequestParameters());
-        $encoded = "Basic " . base64_encode("{$this->payload}:{$this->payload}");
+        $token      = new BasicToken($credential->getTokenRequestParameters());
+        $encoded    = 'Basic ' . base64_encode("{$this->payload}:{$this->payload}");
         $this->assertEquals((string) $encoded, (string) $token);
     }
 }

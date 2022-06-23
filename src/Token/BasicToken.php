@@ -5,7 +5,8 @@ namespace LiaTec\Http\Token;
 use LiaTec\Http\AccessToken;
 
 /**
- * Clase que genera el Basic Token para la Autenticacion
+ * @property string $username
+ * @property string $password
  */
 class BasicToken extends AccessToken
 {

@@ -3,37 +3,45 @@
 namespace LiaTec\Http;
 
 use LiaTec\Http\Contracts\Authorizable;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\RequestInterface;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Psr7\Request;
 
 class Http
 {
     use Concerns\MakesBasicAuthClient;
+    use Concerns\MakesOAuth2Client;
     use Concerns\ChainsConfig;
     use Concerns\BuildsUrl;
 
     /**
-     * Cliente
+     * Transporte
      *
-     * @var Client
+     * @var ClientInterface
      */
     protected $client;
 
-    public function __construct(Authorizable $credential, $client = null)
+    /**
+     * Gets http instance
+     *
+     * @param Authorizable $credential
+     * @param mixed        $transport
+     */
+    final public function __construct(Authorizable $credential = null, $transport = null)
     {
         $this->credential = $credential;
-        $this->client     = $client;
+        $this->client     = $transport;
     }
 
     /**
-    * GET
-    *
-    * @param  string            $resource
-    * @param  array             $query
-    * @param  array             $options
-    * @return ResponseInterface
-    */
+     * GET
+     *
+     * @param  string            $resource
+     * @param  array             $query
+     * @param  array             $options
+     * @return ResponseInterface
+     */
     public function get(string $resource, array $query = [], $options = []): ResponseInterface
     {
         return $this->request('GET', $resource, array_merge([
@@ -95,12 +103,11 @@ class Http
         ));
     }
 
-
     /**
      * Request
      *
-     * @param  [type]            $method
-     * @param  [type]            $resource
+     * @param  string            $method
+     * @param  string            $resource
      * @param  array             $options
      * @return ResponseInterface
      */
