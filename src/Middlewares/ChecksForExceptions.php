@@ -26,9 +26,8 @@ class ChecksForExceptions
 
                     switch ($code) {
                         case 400:
-                            throw new ValidationException(json_decode($this->message($response), true));
                         case 422:
-                            throw new ValidationException(json_decode($this->message($response), true));
+                            throw ValidationException::fromResponse($response);
                         case 404:
                             throw new NotFoundException($this->message($response));
                         case 401:
