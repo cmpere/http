@@ -1,2 +1,5 @@
 /vendor/
 composer.lock
+.phpunit.result.cach
+.env
+.phpunit.result.cache
