@@ -2,17 +2,17 @@
 
 namespace Tests;
 
+use Tests\Credentials\OAuth2Credential;
+use Tests\Credentials\BasicCredential;
 use Tests\Credentials\NullCredential;
 use GuzzleHttp\Handler\MockHandler;
+use LiaTec\Http\Token\BearerToken;
+use LiaTec\Http\Token\BasicToken;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client;
 use LiaTec\Http\Http;
-use LiaTec\Http\Token\BasicToken;
-use LiaTec\Http\Token\BearerToken;
-use Tests\Credentials\BasicCredential;
-use Tests\Credentials\OAuth2Credential;
 
 class HttpClientTest extends TestCase
 {
