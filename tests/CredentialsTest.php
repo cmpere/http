@@ -54,4 +54,49 @@ class CredentialsTest extends TestCase
         $encoded    = 'Basic ' . base64_encode("{$this->payload}:{$this->payload}");
         $this->assertEquals((string) $encoded, (string) $token);
     }
+
+    /** @test */
+    public function it_resolves_base_url()
+    {
+        $credential = new BasicAuthCredential();
+        $env        = 'test';
+        $credential->setEnv($env);
+        $this->assertNull($credential->env);
+        $credential->setEnvironment($env, "{$credential->env}_base_url");
+        $this->assertEquals("{$credential->env}_base_url", $credential->getEnvBaseUrl());
+    }
+
+    /** @test */
+    public function it_gets_enviroments()
+    {
+        $credential = new BasicAuthCredential();
+        $env        = 'test';
+        $credential->setEnv($env);
+        $credential->setEnvironment($env, "{$env}_base_url");
+        $enviroments = $credential->getEnvironments();
+        $this->assertArrayHasKey($env, $enviroments);
+        $this->assertEquals("{$env}_base_url", $enviroments[$env]);
+    }
+
+    /** @test */
+    public function it_gets_env()
+    {
+        $credential = new BasicAuthCredential();
+        $env        = 'test';
+        $credential->setEnv($env);
+        $this->assertIsString($credential->getEnv($env));
+    }
+
+    /** @test */
+    public function it_gets_protocol()
+    {
+        $credential = new BasicAuthCredential();
+        $this->assertNull($credential->protocol);
+        $this->assertNull($credential->getProtocol());
+
+        $credential->setProtocol('http');
+
+        $this->assertEquals('http', $credential->getProtocol());
+        $this->assertNull($credential->protocol);
+    }
 }
