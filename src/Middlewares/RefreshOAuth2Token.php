@@ -87,7 +87,8 @@ class RefreshOAuth2Token
         $stack = is_null($this->mock) ? HandlerStack::create() : HandlerStack::create($this->mock);
         $stack->push(new ChecksForExceptions(), 'checks_exceptions');
 
-        $response = $this->client->request('POST', $this->credential->access_token_uri, [
+        $uri      = $this->credential->getAccessTokenUri() ?? $this->credential->access_token_uri;
+        $response = $this->client->request('POST', $uri, [
             'form_params' => $this->credential->getTokenRequestParameters(),
             'handler'     => $stack,
         ]);
