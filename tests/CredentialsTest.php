@@ -99,4 +99,14 @@ class CredentialsTest extends TestCase
         $this->assertEquals('http', $credential->getProtocol());
         $this->assertNull($credential->protocol);
     }
+
+    /** @test */
+    public function it_gets_access_token_uri()
+    {
+        $credential = new BasicAuthCredential();
+        $this->assertNull($credential->getAccessTokenUri());
+        $credential->setAccessTokenUri('schema://domain');
+        $this->assertNotNull($credential->getAccessTokenUri());
+        $this->assertEquals('schema://domain', $credential->getAccessTokenUri());
+    }
 }

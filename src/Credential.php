@@ -6,11 +6,13 @@ use LiaTec\Http\Concerns\InteractsWithEnviroments;
 use LiaTec\Http\Concerns\InteractsWithProtocol;
 use LiaTec\Http\Concerns\ModifiesRequest;
 use LiaTec\Http\Concerns\HasAttributes;
+use LiaTec\Http\Concerns\InteractsWithAccessTokenUri;
 use LiaTec\Http\Contracts\Authorizable;
 use Psr\Http\Message\RequestInterface;
 
 abstract class Credential implements Authorizable
 {
+    use InteractsWithAccessTokenUri;
     use InteractsWithEnviroments;
     use InteractsWithProtocol;
     use ModifiesRequest;

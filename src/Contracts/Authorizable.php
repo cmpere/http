@@ -12,4 +12,6 @@ interface Authorizable
     public function applyToRequest(RequestInterface $request);
 
     public function getTokenRequestParameters(): array;
+
+    public function getAccessTokenUri(): ?string;
 }
