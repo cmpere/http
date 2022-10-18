@@ -10,6 +10,7 @@ use GuzzleHttp\Psr7\Request;
 
 class Http
 {
+    use Concerns\MakesCustomClient;
     use Concerns\MakesBasicAuthClient;
     use Concerns\MakesOAuth2Client;
     use Concerns\ChainsConfig;
