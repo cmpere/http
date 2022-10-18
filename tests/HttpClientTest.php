@@ -217,4 +217,21 @@ class HttpClientTest extends TestCase
         $this->assertEquals($header[0], (string) $token);
         $this->assertEquals('get', $data['action']);
     }
+
+    /** @test */
+    public function it_works_with_Custom_auth()
+    {
+        $queue = array_map(function ($method) {
+            return new Response(200, ['Content-Type' => 'application/json;charset=utf-8'], json_encode([
+                'action' => $method,
+            ]));
+        }, ['get']);
+
+        $mock     = new MockHandler($queue);
+        $client   = Http::custom($this->nullCredential, [], $mock);
+        $response = $client->get('/url');
+        $data     = \GuzzleHttp\json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals('get', $data['action']);
+    }
 }
