@@ -105,6 +105,21 @@ class Http
     }
 
     /**
+     * Raw
+     *
+     * @param  string            $method
+     * @param  string            $resource
+     * @param  array             $options
+     * @return ResponseInterface
+     */
+    public function raw($method, $resource, $options = []): ResponseInterface
+    {
+        $request = new Request($method, $this->buildUrl($resource));
+
+        return  $this->send($request, $options);
+    }
+
+    /**
      * Request
      *
      * @param  string            $method
