@@ -153,6 +153,34 @@ class HttpClientTest extends TestCase
     }
 
     /** @test */
+    public function it_works_with_raw_request()
+    {
+        $queue = [
+            new Response(200, ['Content-Type' => 'application/json;charset=utf-8'], json_encode([
+                'method' => 'raw',
+            ])),
+        ];
+
+        $stack = HandlerStack::create(new MockHandler($queue));
+
+        $client = new Http(
+            $this->nullCredential,
+            new Client(['handler' => $stack])
+        );
+
+        $response = $client->raw('POST', '/url', [
+            'body'    => 'anydata',
+            'headers' => [
+                'Content-Type' => 'application/x-www-form-urlencoded',
+            ],
+        ]);
+
+        $data = \GuzzleHttp\json_decode((string) $response->getBody(), true);
+
+        $this->assertEquals('raw', $data['method']);
+    }
+
+    /** @test */
     public function it_works_with_Basic_auth()
     {
         $queue = array_map(function ($method) {
